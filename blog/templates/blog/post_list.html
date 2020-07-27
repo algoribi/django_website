@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{% static 'blog/_assets/css/custom.min.css' %}">
 </head>
 <body>
-<div class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
+<div class="navbar navbar-expand-lg fixed-top navbar-light bg-light" id="navbar">
     <div class="container">
         <a href="../" class="navbar-brand">Algoribi</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -82,25 +82,29 @@
 
                 <h1 class="my-4">Blog</h1>
 
-                {% for p in object_list %}
-                <!-- Blog Post -->
-                <div class="card mb-4">
-                    {% if p.head_image %}
+                {% if object_list.exists %}
+                    {% for p in object_list %}
+                    <!-- Blog Post -->
+                    <div class="card mb-4">
+                        {% if p.head_image %}
                         <img class="card-img-top" src="{{ p.head_image.url }}" alt="Card image cap">
-                    {% else %}
+                        {% else %}
                         <img class="card-img-top" src="https://picsum.photos/750/300/?random" alt="Card image cap">
-                    {% endif %}
-                    <div class="card-body">
-                        <h2 class="card-title">{{ p.title }}</h2>
-                        <p class="card-text">{{p.content | truncatewords:50}}</p>
-                        <a href="#" class="btn btn-primary">Read More &rarr;</a>
+                        {% endif %}
+                        <div class="card-body">
+                            <h2 class="card-title">{{ p.title }}</h2>
+                            <p class="card-text">{{p.content | truncatewords:50}}</p>
+                            <a href="#" class="btn btn-primary">Read More &rarr;</a>
+                        </div>
+                        <div class="card-footer text-muted">
+                            Posted on {{p.create}} by
+                            <a href="#">{{p.author}}</a>
+                        </div>
                     </div>
-                    <div class="card-footer text-muted">
-                        Posted on {{p.create}} by
-                        <a href="#">{{p.author}}</a>
-                    </div>
-                </div>
-                {% endfor %}
+                    {% endfor %}
+                {% else %}
+                    <h3>아직 게시물이 없습니다.</h3>
+                {% endif %}
             </div>
 
             <!-- Sidebar Widgets Column -->
